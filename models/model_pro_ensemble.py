@@ -1,14 +1,16 @@
+import os
 import joblib
 import numpy as np
 import pandas as pd
 
-MODEL_DIR = "/football_predictor_clean/model_weights/final_model_with_structure_features"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "..", "model_weights", "final_model_with_structure_features")
 
 # 加载模型及工具
-ensemble_model = joblib.load(f"{MODEL_DIR}/final_model.pkl")
-scaler = joblib.load(f"{MODEL_DIR}/scaler.pkl")
-feature_cols = joblib.load(f"{MODEL_DIR}/feature_cols.pkl")
-label_encoder = joblib.load(f"{MODEL_DIR}/label_encoder.pkl")
+ensemble_model = joblib.load(os.path.join(MODEL_DIR, "final_model.pkl"))
+scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+feature_cols = joblib.load(os.path.join(MODEL_DIR, "feature_cols.pkl"))
+label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
 
 def predict_model_pro_ensemble(df: pd.DataFrame) -> pd.DataFrame:
     # 确保结构特征存在（必要时动态添加）
@@ -33,11 +35,11 @@ def predict_model_pro_ensemble(df: pd.DataFrame) -> pd.DataFrame:
     gap = (sorted_proba[:, 0] - sorted_proba[:, 1]).round(4)
 
     return pd.DataFrame({
-    "PRO融合模型预测结果": decoded_preds,
-    "PRO融合模型_gap": gap,
-    "P(主胜)": np.round(proba[:, label_encoder.transform(["主胜"])[0]], 4),
-    "P(平局)": np.round(proba[:, label_encoder.transform(["平局"])[0]], 4),
-    "P(客胜)": np.round(proba[:, label_encoder.transform(["客胜"])[0]], 4),
-    "max_diff12": (sorted_proba[:, 0] - sorted_proba[:, 1]).round(4),
-    "diff23": (sorted_proba[:, 1] - sorted_proba[:, 2]).round(4),
-    })
+        "PRO融合模型预测结果": decoded_preds,
+        "PRO融合模型_gap": gap,
+        "P(主胜)": np.round(proba[:, label_encoder.transform(["主胜"])[0]], 4),
+        "P(平局)": np.round(proba[:, label_encoder.transform(["平局"])[0]], 4),
+        "P(客胜)": np.round(proba[:, label_encoder.transform(["客胜"])[0]], 4),
+        "max_diff12": (sorted_proba[:, 0] - sorted_proba[:, 1]).round(4),
+        "diff23": (sorted_proba[:, 1] - sorted_proba[:, 2]).round(4),
+    }, index=df.index)

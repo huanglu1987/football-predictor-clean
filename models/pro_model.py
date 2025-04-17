@@ -1,17 +1,21 @@
 # pro_model.py（融合预测 PRO 模型）
 
+import os
 import joblib
 import numpy as np
 import pandas as pd
 
+# 获取当前文件目录
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "..", "model_weights", "pro_model")
+
 # 加载模型和辅助文件（权重组合：rf=0.3, lr=0.3, xgb=0.4）
-rf_model = joblib.load("/football_predictor_clean/model_weights/random_forest_model.pkl")
-lr_model = joblib.load("/football_predictor_clean/model_weights/logistic_model.pkl")
-xgb_model = joblib.load("/football_predictor_clean/model_weights/xgboost_model.pkl")
+rf_model = joblib.load(os.path.join(MODEL_DIR, "random_forest_model.pkl"))
+lr_model = joblib.load(os.path.join(MODEL_DIR, "logistic_model.pkl"))
+xgb_model = joblib.load(os.path.join(MODEL_DIR, "xgboost_model.pkl"))
 
-feature_cols = joblib.load("/football_predictor_clean/model_weights/feature_cols.pkl")
-label_encoder = joblib.load("/football_predictor_clean/model_weights/label_encoder.pkl")
-
+feature_cols = joblib.load(os.path.join(MODEL_DIR, "feature_cols.pkl"))
+label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
 
 def predict_model_pro(input_df: pd.DataFrame) -> pd.DataFrame:
     X = input_df[feature_cols]
