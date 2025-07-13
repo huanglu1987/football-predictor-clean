@@ -32,8 +32,8 @@ def load_soccer_model():
         inv = 1 / X_imp[:, j:j+3]
         X_imp[:, j:j+3] = inv / inv.sum(axis=1, keepdims=True)
     y = df['比赛结果'].map({'主胜':0,'平局':1,'客胜':2}).values
-    # 权重：平局=0.70
-    w = np.array([1.0 if yi==0 else 0.70 if yi==1 else 1.0 for yi in y])
+    # 权重：平局=0.65
+    w = np.array([1.0 if yi==0 else 0.65 if yi==1 else 1.0 for yi in y])
     model = HistGradientBoostingClassifier(
         learning_rate=0.01, max_depth=5, loss='log_loss', random_state=42
     )
