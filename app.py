@@ -63,8 +63,8 @@ def load_models():
 soccer_feats, draw_clf, tree_clf, winlose_clf, multi_clf = load_models()
 
 # ───────── 页面设置 ─────────
-st.set_page_config(page_title='二阶段+树平局 综合足球预测器', layout='wide')
-st.title('⚽ 二阶段 + 树 平局融合 足球比赛预测器')
+st.set_page_config(page_title='二阶段+树平局 综合预测', layout='wide')
+st.title('⚽ 二阶段 + 树 平局融合 预测器')
 
 company_order = ['Bet365','立博','Interwetten','Pinnacle','William Hill']
 outcomes      = ['主胜','平局','客胜']
