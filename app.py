@@ -66,7 +66,7 @@ soccer_feats, draw_clf, tree_clf, winlose_clf, multi_clf = load_models()
 
 # ───────── 页面设置 ─────────
 st.set_page_config(page_title="综合冷门 Boost 足球预测", layout="wide")
-st.title("⚽ 综合冷门 Boost 足球比赛预测系统")
+st.title("⚽ 足球比赛预测系统")
 
 company_order = ["Bet365","立博","Interwetten","Pinnacle","William Hill"]
 outcomes      = ["主胜","平局","客胜"]
