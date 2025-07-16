@@ -196,8 +196,16 @@ if not st.session_state.input_df.empty and st.button("🎯 运行预测"):
     p_multi = multi_clf.predict_proba(X_imp_new)
 
     # 6️⃣ 四路融合 + 归一化
-    p_final = (p_base + p_ens + p_meta + p_multi) / 4
-    p_final /= p_final.sum(axis=1, keepdims=True)
+    # —— 6) 五路融合 ——  ⬅︎ 用“四权重”替换均值
+    w_base, w_ens, w_meta, w_multi = 0.10, 0.70, 0.10, 0.00
+    wsum   = w_base + w_ens + w_meta + w_multi          # =1.0
+
+    p_final = (w_base  * p_base  +
+           w_ens   * p_ens   +
+           w_meta  * p_meta  +
+           w_multi * p_multi) / wsum
+
+    p_final /= p_final.sum(axis=1, keepdims=True)        # 归一化
 
     # 7️⃣ 输出
     preds = [outcomes[k] for k in p_final.argmax(axis=1)]
