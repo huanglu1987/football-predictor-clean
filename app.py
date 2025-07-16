@@ -140,7 +140,7 @@ if not st.session_state.input_df.empty:
             "pair": f"{df_pro.loc[i,'最终预测结果']}-{df_ens.loc[i,'PRO融合模型预测结果']}"
         }
         try:
-            sims = st.session_state.matcher.query(q, k=3)
+            sims = st.session_state.matcher.query(q, k=5)
         except:
             sims = pd.DataFrame()
         st.markdown(f"**第 {i+1} 场** 历史相似比赛：")
